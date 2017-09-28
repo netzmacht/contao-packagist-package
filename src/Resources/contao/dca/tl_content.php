@@ -28,7 +28,7 @@ $GLOBALS['TL_DCA']['tl_content']['metapalettes']['packagist_package'] = [
  */
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['packagist_package'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_grid_name'],
+    'label'     => &$GLOBALS['TL_LANG']['tl_content']['packagist_package'],
     'exclude'   => true,
     'inputType' => 'text',
     'reference' => &$GLOBALS['TL_LANG']['tl_content'],
@@ -41,15 +41,14 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['packagist_package'] = [
 $GLOBALS['TL_DCA']['tl_content']['fields']['packagist_fields'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_grid_name'],
     'exclude'   => true,
-    'inputType' => 'checkbox',
+    'inputType' => 'checkboxWizard',
     'options_callback' => [
         'netzmacht.contao_packagist_package.listeners.dca.content',
         'getFieldOptions'
     ],
     'reference' => &$GLOBALS['TL_LANG']['packagist'],
     'eval'      => [
-        'tl_class' => 'w50',
-        'multiple' => true,
+        'tl_class' => 'clr long',
     ],
     'sql'       => 'tinyblob NULL',
 ];
