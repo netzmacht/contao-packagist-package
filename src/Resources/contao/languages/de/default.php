@@ -13,9 +13,10 @@
 $GLOBALS['TL_LANG']['packagist']['name']            = 'Name';
 $GLOBALS['TL_LANG']['packagist']['description']     = 'Beschreibung';
 $GLOBALS['TL_LANG']['packagist']['version']         = 'Version';
-$GLOBALS['TL_LANG']['packagist']['type']            = 'Type';
+$GLOBALS['TL_LANG']['packagist']['type']            = 'Typ';
 $GLOBALS['TL_LANG']['packagist']['favers']          = 'Favoriten';
-$GLOBALS['TL_LANG']['packagist']['downloads_total'] = 'Downloads (gesamt)';
+$GLOBALS['TL_LANG']['packagist']['downloads_total'] = 'Downloads';
 $GLOBALS['TL_LANG']['packagist']['time']            = 'Letzte Aktualisierung';
+$GLOBALS['TL_LANG']['packagist']['date']            = 'Datum';
 $GLOBALS['TL_LANG']['packagist']['repository']      = 'Repository';
-
+$GLOBALS['TL_LANG']['packagist']['noPackage']       = 'Kein Package ausgewählt.';

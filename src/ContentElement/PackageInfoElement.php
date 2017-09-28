@@ -14,7 +14,9 @@ declare(strict_types=1);
 
 namespace Netzmacht\Contao\PackagistPackage\ContentElement;
 
+use Contao\Config;
 use Contao\ContentElement;
+use Contao\Date;
 use Contao\StringUtil;
 use Doctrine\Common\Cache\Cache;
 
@@ -63,20 +65,21 @@ class PackageInfoElement extends ContentElement
         }
 
         $container = $this->getContainer();
-        $url       = sprintf($container->getParameter('netzmacht.contao_packagist_package.package_json_url'));
+        $url       = $container->getParameter('netzmacht.contao_packagist_package.package_json_url');
         $json      = file_get_contents(sprintf($url, $this->packagist_package));
         $info      = json_decode($json, true);
         $info      = array_merge(
-            $info,
+            $info['package'],
             $this->getLatestVersion($info['package']['versions'])
         );
 
         $info['downloads_total'] = $info['downloads']['total'] ?? 0;
+        $info['date']            = $this->parseTime($info['time']);
 
         $lifeTime = $container->getParameter('netzmacht.contao_packagist_package.cache.lifetime');
-        $cache->save($this->packagist_package, $info['package'], $lifeTime);
+        $cache->save($this->packagist_package, $info, $lifeTime);
 
-        return $info['package'];
+        return $info;
     }
 
     /**
@@ -113,5 +116,19 @@ class PackageInfoElement extends ContentElement
         }
 
         return $latest;
+    }
+
+    /**
+     * Parse the time.
+     *
+     * @param string $time Given time in atom format.
+     *
+     * @return string
+     */
+    private function parseTime(string $time): string
+    {
+        $time = new \DateTime($time);
+
+        return Date::parse(Config::get('dateFormat'), $time->getTimestamp());
     }
 }

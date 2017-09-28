@@ -1,5 +1,5 @@
 parameters:
-  netzmacht.contao_packagist_package.package_json_url: 'https://packagist.org/packages/%.json'
+  netzmacht.contao_packagist_package.package_json_url: 'https://packagist.org/packages/%%s.json'
   netzmacht.contao_packagist_package.cache.lifetime:  86400
 
   netzmacht.contao_packagist_package.fields:
@@ -10,4 +10,5 @@ parameters:
     - favers
     - downloads_total
     - time
+    - date
     - repository
