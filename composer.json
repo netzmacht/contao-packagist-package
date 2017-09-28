@@ -1,0 +1,43 @@
+{
+  "name":"netzmacht/contao-packagist-package",
+  "description":"Show packagist packe information.",
+  "keywords":["contao", "packagist", "package"],
+  "type":"contao-bundle",
+  "license":"LGPL-3.0+",
+  "authors":[
+    {
+      "name":"David Molineus",
+      "email":"mail@netzmacht.de",
+      "homepage":"https://netzmacht.de",
+      "role":"Developer"
+    }
+  ],
+  "support":{
+    "email":"mail@netzmacht.de",
+    "issues":"https://github.com/netzmacht/contao-packagist-package/issues",
+    "source":"https://github.com/netzmacht/contao-packagist-package"
+  },
+  "require":{
+    "php":">=7.1",
+    "contao/core-bundle":"^4.4",
+    "contao-community-alliance/meta-palettes":"^1.10",
+    "doctrine/cache": "^1.7"
+  },
+  "require-dev": {
+    "contao/manager-plugin": "^2.0",
+    "phpcq/all-tasks": "^1.2"
+  },
+  "conflict": {
+    "netzmacht/contao-bootstrap": "*"
+  },
+  "autoload": {
+    "psr-4": { "Netzmacht\\Contao\\PackagistPackage\\": "src/" }
+  },
+  "extra":{
+    "branch-alias": {
+      "dev-master": "1.0.x-dev",
+      "dev-develop": "1.1.x-dev"
+    },
+    "contao-manager-plugin": "Netzmacht\\Contao\\PackagistPackage\\ContaoManager\\Plugin"
+  }
+}

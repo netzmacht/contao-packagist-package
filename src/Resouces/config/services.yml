@@ -1,0 +1,5 @@
+services:
+  netzmacht.contao_packagist_package.cache:
+    class: Doctrine\Common\Cache\FilesystemCache
+    arguments:
+      - '%kernel.cache_dir%/packagist'

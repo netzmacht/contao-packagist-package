@@ -1,0 +1,16 @@
+<?php $this->extend('block_searchable') ?>
+
+<?php $this->block('content') ?>
+
+<?php if ($this->package): ?>
+<dl>
+<?php foreach($this->fields as $field): ?>
+    <dt><?= $this->labels[$field] ?></dt>
+    <dd><?= $this->package[$field] ?></dd>
+<?php endforeach ?>
+</dl>
+<?php else: ?>
+    <p class="info"><?= $this->labels['noPackage'] ?></p>
+<?php endif ?>
+
+<?php $this->endblock() ?>
