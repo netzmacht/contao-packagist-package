@@ -129,6 +129,6 @@ class PackageInfoElement extends ContentElement
     {
         $time = new \DateTime($time);
 
-        return Date::parse(Config::get('dateFormat'), $time->getTimestamp());
+        return Date::parse(Date::getNumericDateFormat(), $time->getTimestamp());
     }
 }
