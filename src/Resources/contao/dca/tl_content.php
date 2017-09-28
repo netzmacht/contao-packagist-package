@@ -49,6 +49,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['packagist_fields'] = [
     'reference' => &$GLOBALS['TL_LANG']['packagist'],
     'eval'      => [
         'tl_class' => 'clr long',
+        'multiple' => true,
     ],
     'sql'       => 'tinyblob NULL',
 ];
