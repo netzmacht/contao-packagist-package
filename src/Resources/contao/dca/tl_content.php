@@ -51,5 +51,5 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['packagist_fields'] = [
         'tl_class' => 'w50',
         'multiple' => true,
     ],
-    'sql'       => "varchar(32) NOT NULL default ''",
+    'sql'       => 'tinyblob NULL',
 ];
