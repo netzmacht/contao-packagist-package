@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Netzmacht\Contao\PackagistPackage\ContentElement;
 
-use Contao\Config;
 use Contao\ContentElement;
+use Contao\ContentModel;
 use Contao\Date;
 use Contao\StringUtil;
 use Doctrine\Common\Cache\Cache;
@@ -34,6 +34,36 @@ class PackageInfoElement extends ContentElement
      * @var string
      */
     protected $strTemplate = 'ce_packagist_package';
+
+    /**
+     * Packagist url pattern.
+     *
+     * @var string
+     */
+    private $packagistUrl;
+
+    /**
+     * Cache life time.
+     *
+     * @var Cache life time.
+     */
+    private $cacheLifeTime;
+
+    /**
+     * PackageInfoElement constructor.
+     *
+     * @param ContentModel $objElement Content element.
+     * @param string       $strColumn  Column name.
+     */
+    public function __construct(ContentModel $objElement, $strColumn = 'main')
+    {
+        parent::__construct($objElement, $strColumn);
+
+        $container = static::getContainer();
+
+        $this->packagistUrl  = $container->getParameter('netzmacht.contao_packagist_package.package_json_url');
+        $this->cacheLifeTime = $container->getParameter('netzmacht.contao_packagist_package.cache.lifetime');
+    }
 
     /**
      * {@inheritdoc}
@@ -64,9 +94,7 @@ class PackageInfoElement extends ContentElement
             return $cache->fetch($this->packagist_package);
         }
 
-        $container = $this->getContainer();
-        $url       = $container->getParameter('netzmacht.contao_packagist_package.package_json_url');
-        $json      = file_get_contents(sprintf($url, $this->packagist_package));
+        $json      = file_get_contents(sprintf($this->packagistUrl, $this->packagist_package));
         $info      = json_decode($json, true);
         $info      = array_merge(
             $info['package'],
@@ -76,8 +104,7 @@ class PackageInfoElement extends ContentElement
         $info['downloads_total'] = $info['downloads']['total'] ?? 0;
         $info['date']            = $this->parseTime($info['time']);
 
-        $lifeTime = $container->getParameter('netzmacht.contao_packagist_package.cache.lifetime');
-        $cache->save($this->packagist_package, $info, $lifeTime);
+        $cache->save($this->packagist_package, $info, $this->cacheLifeTime);
 
         return $info;
     }
