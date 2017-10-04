@@ -2,14 +2,17 @@
 
 <?php $this->block('content') ?>
 
-<?php if ($this->package): ?>
-<dl>
-<?php foreach($this->fields as $field): ?>
-    <dt><?= $this->labels[$field] ?></dt>
-    <dd><?= $this->package[$field] ?></dd>
+<?php foreach ($this->packages as $name => $package): ?>
+    <h3><?= $name ?></h3>
+    <dl>
+        <?php foreach ($this->fields as $field): ?>
+            <dt><?= $this->labels[$field] ?></dt>
+            <dd><?= $package[$field] ?></dd>
+        <?php endforeach ?>
+    </dl>
 <?php endforeach ?>
-</dl>
-<?php else: ?>
+
+<?php if (!$this->packages): ?>
     <p class="info"><?= $this->labels['noPackage'] ?></p>
 <?php endif ?>
 

@@ -50,6 +50,13 @@ class PackageInfoElement extends ContentElement
     private $cacheLifeTime;
 
     /**
+     * Cache.
+     *
+     * @var \Doctrine\Common\Cache\FilesystemCache|object
+     */
+    private $cache;
+
+    /**
      * PackageInfoElement constructor.
      *
      * @param ContentModel $objElement Content element.
@@ -63,6 +70,7 @@ class PackageInfoElement extends ContentElement
 
         $this->packagistUrl  = $container->getParameter('netzmacht.contao_packagist_package.package_json_url');
         $this->cacheLifeTime = $container->getParameter('netzmacht.contao_packagist_package.cache.lifetime');
+        $this->cache         = $container->get('netzmacht.contao_packagist_package.cache');
     }
 
     /**
@@ -72,29 +80,44 @@ class PackageInfoElement extends ContentElement
      */
     protected function compile()
     {
-        $this->Template->package = $this->getPackageInfo();
-        $this->Template->fields  = StringUtil::deserialize($this->packagist_fields, true);
-        $this->Template->labels  = $GLOBALS['TL_LANG']['packagist'];
+        $this->Template->packages = $this->compilePackages();
+        $this->Template->fields   = StringUtil::deserialize($this->packagist_fields, true);
+        $this->Template->labels   = $GLOBALS['TL_LANG']['packagist'];
+    }
+
+    /**
+     * Compile packages.
+     *
+     * @return array
+     */
+    private function compilePackages(): array
+    {
+        $packages = StringUtil::trimsplit("\n", $this->packagist_package);
+        $compiled = [];
+
+        foreach ($packages as $package) {
+            if ($package) {
+                $compiled[$package] = $this->getPackageInfo($package);
+            }
+        }
+
+        return $compiled;
     }
 
     /**
      * Get the packagist information.
      *
+     * @param string $package Package name.
+     *
      * @return array
      */
-    private function getPackageInfo():? array
+    private function getPackageInfo(string $package): array
     {
-        if (!$this->packagist_package) {
-            return null;
+        if ($this->cache->contains($package)) {
+            return $this->cache->fetch($package);
         }
 
-        $cache = $this->getCache();
-
-        if ($cache->contains($this->packagist_package)) {
-            return $cache->fetch($this->packagist_package);
-        }
-
-        $json      = file_get_contents(sprintf($this->packagistUrl, $this->packagist_package));
+        $json      = file_get_contents(sprintf($this->packagistUrl, $package));
         $info      = json_decode($json, true);
         $info      = array_merge(
             $info['package'],
@@ -104,19 +127,9 @@ class PackageInfoElement extends ContentElement
         $info['downloads_total'] = $info['downloads']['total'] ?? 0;
         $info['date']            = $this->parseTime($info['time']);
 
-        $cache->save($this->packagist_package, $info, $this->cacheLifeTime);
+        $this->cache->save($package, $info, $this->cacheLifeTime);
 
         return $info;
-    }
-
-    /**
-     * Get the cache.
-     *
-     * @return Cache
-     */
-    private function getCache()
-    {
-        return $this->getContainer()->get('netzmacht.contao_packagist_package.cache');
     }
 
     /**

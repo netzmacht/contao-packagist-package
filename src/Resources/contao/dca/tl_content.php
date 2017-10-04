@@ -30,12 +30,12 @@ $GLOBALS['TL_DCA']['tl_content']['metapalettes']['packagist_package'] = [
 $GLOBALS['TL_DCA']['tl_content']['fields']['packagist_package'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_content']['packagist_package'],
     'exclude'   => true,
-    'inputType' => 'text',
+    'inputType' => 'textarea',
     'reference' => &$GLOBALS['TL_LANG']['tl_content'],
     'eval'      => [
-        'tl_class' => 'w50',
+        'tl_class' => 'lng',
     ],
-    'sql'       => "varchar(128) NOT NULL default ''",
+    'sql'       => "mediumtext NOT NULL default ''",
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['packagist_fields'] = [
