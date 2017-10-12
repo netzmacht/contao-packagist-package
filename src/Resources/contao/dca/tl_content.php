@@ -35,7 +35,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['packagist_package'] = [
     'eval'      => [
         'tl_class' => 'lng',
     ],
-    'sql'       => "mediumtext NOT NULL default ''",
+    'sql'       => "mediumtext NULL",
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['packagist_fields'] = [
