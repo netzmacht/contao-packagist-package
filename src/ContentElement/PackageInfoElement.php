@@ -78,7 +78,7 @@ class PackageInfoElement extends ContentElement
      *
      * @SuppressWarnings(PHPMD.Superglobals)
      */
-    protected function compile()
+    protected function compile(): void
     {
         $this->Template->packages = $this->compilePackages();
         $this->Template->fields   = StringUtil::deserialize($this->packagist_fields, true);

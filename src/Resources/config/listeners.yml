@@ -1,5 +1,6 @@
 services:
   netzmacht.contao_packagist_package.listeners.dca.content:
     class: Netzmacht\Contao\PackagistPackage\Listener\Dca\ContentListener
+    public: true
     arguments:
       - '%netzmacht.contao_packagist_package.fields%'

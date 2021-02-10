@@ -1,5 +1,6 @@
 services:
   netzmacht.contao_packagist_package.cache:
     class: Doctrine\Common\Cache\FilesystemCache
+    public: true
     arguments:
       - '%kernel.cache_dir%/packagist'
